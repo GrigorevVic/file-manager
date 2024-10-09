@@ -1,9 +1,8 @@
 import os from "os";
 
 export const getDataOs = (args) => {
-  const arg = args[1].replace(/\n/g, "");
 
-  switch (arg) {
+  switch (args[1]) {
     case "--cpus":
       return os.cpus();
     case "--architecture":
