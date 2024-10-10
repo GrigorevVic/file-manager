@@ -1,6 +1,6 @@
 import { getDataOs } from "./os/os.js";
 import { compressFile } from "./compress/compress.js";
-import { readFile } from "./fs/fs.js";
+import { readFile, remove } from "./fs/fs.js";
 
 const args = process.argv.slice(2)[0];
 const name = args.split("=")[1];
@@ -40,6 +40,10 @@ const echoInput = (data) => {
     case "cat":
       readFile(argsNormalize);
       break;
+    case "rm":
+      remove(argsNormalize);
+      break;
+
     default:
       console.log("Operation failed");
       console.log(`You are currently in ${process.cwd()}\n`);
