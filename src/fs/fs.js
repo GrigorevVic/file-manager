@@ -104,4 +104,29 @@ export const copy = async (args) => {
   }
 };
 
+export const move = async (args) => {
+  if (args.length > 2) {
+    const pathToFile = getPath(args[1]);
+    const pathToDestination = getPath(args[2]);
+    const readStream = fs.createReadStream(pathToFile);
+    const writeStream = fs.createWriteStream(pathToDestination);
+    readStream.on("error", () => {
+      fs.unlink(pathToDestination, () => {
+        console.log("Operation failed\n");
+      });
+    });
+    writeStream.on("finish", () => {
+      fs.unlink(pathToFile, () => {});
+      successful();
+    });
+    writeStream.on("error", (e) => {
+      failed();
+    });
+
+    readStream.pipe(writeStream);
+  } else {
+    console.log("Invalid input");
+  }
+};
+
 //cat ./src/fs/test.txt
