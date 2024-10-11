@@ -64,4 +64,20 @@ export const createFile = async (args) => {
   }
 };
 
+export const rename = async (args) => {
+  if (args.length > 2) {
+    const pathToFile = getPath(args[1]);
+    const pathToDestination = getPath(args[2]);
+    fs.rename(pathToFile, pathToDestination, (e) => {
+      if (e) {
+        failed();
+      } else {
+        successful();
+      }
+    });
+  } else {
+    console.log("Invalid input");
+  }
+};
+
 //cat ./src/fs/test.txt
