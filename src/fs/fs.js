@@ -25,7 +25,7 @@ export const readFile = async (args) => {
       successful();
     });
     readableStream.on("error", (e) => {
-     failed();
+      failed();
     });
   } else {
     console.log("Invalid input");
@@ -75,6 +75,30 @@ export const rename = async (args) => {
         successful();
       }
     });
+  } else {
+    console.log("Invalid input");
+  }
+};
+
+export const copy = async (args) => {
+  if (args.length > 2) {
+    const pathToFile = getPath(args[1]);
+    const pathToDestination = getPath(args[2]);
+    const readStream = fs.createReadStream(pathToFile);
+    const writeStream = fs.createWriteStream(pathToDestination);
+    readStream.on("error", () => {
+      fs.unlink(pathToDestination, () => {
+        console.log("Operation failed\n");
+      });
+    });
+    writeStream.on("finish", () => {
+      successful();
+    });
+    writeStream.on("error", (e) => {
+      failed();
+    });
+
+    readStream.pipe(writeStream);
   } else {
     console.log("Invalid input");
   }

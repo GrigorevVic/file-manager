@@ -1,6 +1,6 @@
 import { getDataOs } from "./os/os.js";
 import { compressFile } from "./compress/compress.js";
-import { readFile, remove, createFile, rename } from "./fs/fs.js";
+import { readFile, remove, createFile, rename, copy } from "./fs/fs.js";
 
 const args = process.argv.slice(2)[0];
 const name = args.split("=")[1];
@@ -46,6 +46,9 @@ const echoInput = (data) => {
       break;
     case "rn":
       rename(argsNormalize);
+      break;
+    case "cp":
+      copy(argsNormalize);
       break;
     default:
       console.log("Operation failed");
