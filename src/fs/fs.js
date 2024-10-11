@@ -6,12 +6,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const getPath = (filename) => path.resolve(__dirname, filename);
 
-const successful = () => {
+export const successful = () => {
   console.log("\noperation successful!\n");
   console.log(`You are currently in ${process.cwd()}\n`);
 };
 
-const failed = () => {
+export const failed = () => {
   console.log("Operation failed\n");
   console.log(`You are currently in ${process.cwd()}\n`);
 };

@@ -1,6 +1,16 @@
 import { getDataOs } from "./os/os.js";
 import { compressFile } from "./compress/compress.js";
-import { readFile, remove, createFile, rename, copy, move } from "./fs/fs.js";
+import {
+  readFile,
+  remove,
+  createFile,
+  rename,
+  copy,
+  move,
+  failed,
+} from "./fs/fs.js";
+import { hash } from "./hash/hash.js"
+
 
 const args = process.argv.slice(2)[0];
 const name = args.split("=")[1];
@@ -53,9 +63,11 @@ const echoInput = (data) => {
     case "mv":
       move(argsNormalize);
       break;
+    case "hash":
+      hash(argsNormalize);
+      break;
     default:
-      console.log("Operation failed");
-      console.log(`You are currently in ${process.cwd()}\n`);
+      failed();
       break;
   }
 };
