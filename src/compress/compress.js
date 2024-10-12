@@ -2,6 +2,7 @@ import { createBrotliCompress, createBrotliDecompress } from "zlib";
 import { createReadStream, createWriteStream, unlink } from "fs";
 import { fileURLToPath } from "url";
 import path, { dirname } from "path";
+import { failed, successful } from "../utils/utils.js"
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -9,7 +10,6 @@ const getPath = (filename) => path.resolve(__dirname, filename);
 
 export const compressFile = async (args) => {
   if (args.length > 2) {
-    //const argsNormalize = args.filter((el) => el !== "");
     const pathToFile = getPath(args[1]);
     const pathToDestination = getPath(args[2]);
     const brotli =
@@ -20,24 +20,19 @@ export const compressFile = async (args) => {
 
     readableStream.on("error", (e) => {
       unlink(pathToDestination, () => {
-        console.log("Operation failed\n");
+        failed();
       });
-
     });
 
     const writeStream = createWriteStream(pathToDestination);
     writeStream.on("finish", () => {
-      console.log("\noperation successful!\n");
-      console.log(`You are currently in ${process.cwd()}\n`);
+      successful();
     });
     writeStream.on("error", (e) => {
-      console.log("Invalid input\n", e.message);
+      failed();
     });
     readableStream.pipe(brotli).pipe(writeStream);
   } else {
     console.log("Invalid input");
   }
 };
-
-// compress test.txt test.gz
-// decompress test.gz test2.txt

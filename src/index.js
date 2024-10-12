@@ -1,16 +1,13 @@
 import { getDataOs } from "./os/os.js";
 import { compressFile } from "./compress/compress.js";
-import {
-  readFile,
-  remove,
-  createFile,
-  rename,
-  copy,
-  move,
-  failed,
-} from "./fs/fs.js";
-import { hash } from "./hash/hash.js"
-
+import { failed, successful } from "./utils/utils.js";
+import { hash } from "./hash/hash.js";
+import { copy } from "./fs/copy.js";
+import { createFile } from "./fs/create.js";
+import { move } from "./fs/move.js";
+import { readFile } from "./fs/read.js";
+import { remove } from "./fs/remove.js";
+import { rename } from "./fs/rename.js";
 
 const args = process.argv.slice(2)[0];
 const name = args.split("=")[1];
@@ -38,6 +35,7 @@ const echoInput = (data) => {
   switch (argsNormalize[0]) {
     case "os":
       console.log(getDataOs(argsNormalize));
+      successful();
       break;
     case "compress":
       compressFile(argsNormalize);
@@ -65,6 +63,18 @@ const echoInput = (data) => {
       break;
     case "hash":
       hash(argsNormalize);
+      break;
+    case "up":
+      process.chdir("../");
+      successful();
+      break;
+    case "cd":
+      try {
+        process.chdir(argsNormalize[1]);
+        successful();
+      } catch (e) {
+        failed();
+      }
       break;
     default:
       failed();

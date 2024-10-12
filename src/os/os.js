@@ -10,9 +10,9 @@ export const getDataOs = (args) => {
     case "--EOL":
       return os.EOL;
     case "--homedir":
-      return "HomeDir - unrealized";
+      return os.userInfo().homedir;
     case "--username":
-      return "username - unrealized";
+      return os.userInfo().username;
     default:
       return "Invalid input";
   }

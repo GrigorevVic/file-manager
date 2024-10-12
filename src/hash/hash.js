@@ -1,6 +1,6 @@
 import fs from "fs";
 import crypto from "crypto";
-import { failed, successful } from "../fs/fs.js";
+import { failed, successful } from "../utils/utils.js";
 import stream from "stream/promises";
 import { fileURLToPath } from "url";
 import path, { dirname } from "path";
@@ -25,18 +25,3 @@ export const hash = async (args) => {
     console.log("Invalid input");
   }
 };
-
-/*
-import fs from 'fs';
-import crypto from 'crypto';
-import stream from 'stream/promises';
-
-const calculateHash = async () => {
-  const hash = crypto.createHash('sha256');
-  const readableStream = fs.createReadStream('./src/hash/files/fileToCalculateHashFor.txt');
-  await stream.pipeline(readableStream, hash);
-  console.log(hash.digest('hex'));
-};
-
-await calculateHash();
-  */
