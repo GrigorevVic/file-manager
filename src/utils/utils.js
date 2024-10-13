@@ -1,5 +1,5 @@
 export const successful = () => {
-  console.log(`You are currently in ${process.cwd()}\n`);
+  console.log(`\nYou are currently in ${process.cwd()}\n`);
 };
 
 export const failed = () => {

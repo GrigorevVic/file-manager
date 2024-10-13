@@ -9,6 +9,8 @@ import { readFile } from "./fs/read.js";
 import { remove } from "./fs/remove.js";
 import { rename } from "./fs/rename.js";
 import { ls } from "./navigation/ls.js";
+import { createInterface } from "readline";
+import { stdin as input, stdout as output } from "process";
 
 const args = process.argv.slice(2)[0];
 const name = args.split("=")[1];
@@ -16,21 +18,14 @@ const name = args.split("=")[1];
 console.log(`Welcome to the File Manager, ${name}!\n`);
 console.log(`You are currently in ${process.cwd()}\n`);
 
-const exit = () => {
-  console.log(`\nThank you for using File Manager, ${name}, goodbye!`);
-  // setTimeout(() => {}, 60000);
-  process.exit(0);
-};
-
-const echoInput = (data) => {
-  const dataToString = data.toString();
-  if (dataToString.includes(".exit")) {
-    exit();
+const rl = createInterface({ input, output });
+rl.on("line", (input) => {
+  const dataToString = input.toString();
+  if (input === ".exit") {
+    rl.close();
+    process.exit(0);
   }
 
-  process.on("SIGINT", () => {
-    exit();
-  });
   const args = dataToString.trim().split(" ");
   const argsNormalize = args.map((el) => el.replace(/\n/g, ""));
   switch (argsNormalize[0]) {
@@ -84,11 +79,10 @@ const echoInput = (data) => {
       failed();
       break;
   }
-};
+});
 
-process.stdin.on("data", echoInput);
+process.on("exit", () => {
+  console.log(`\nThank you for using File Manager, ${name}, goodbye!`);
+  process.exit(0);
+});
 
-/*
- fs.stat(path, callback(err, stats)) and stats.isDirectory()
-
-*/
