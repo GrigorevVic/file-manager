@@ -8,6 +8,7 @@ import { move } from "./fs/move.js";
 import { readFile } from "./fs/read.js";
 import { remove } from "./fs/remove.js";
 import { rename } from "./fs/rename.js";
+import { ls } from "./navigation/ls.js";
 
 const args = process.argv.slice(2)[0];
 const name = args.split("=")[1];
@@ -76,6 +77,9 @@ const echoInput = (data) => {
         failed();
       }
       break;
+    case "ls":
+      ls();
+      break;
     default:
       failed();
       break;
@@ -83,3 +87,8 @@ const echoInput = (data) => {
 };
 
 process.stdin.on("data", echoInput);
+
+/*
+ fs.stat(path, callback(err, stats)) and stats.isDirectory()
+
+*/
